@@ -1,0 +1,39 @@
+.nav-header {
+  height: 5rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  ion-img {
+    height: 70%;
+    width: auto;
+    max-width: 70%;
+  }
+}
+
+ion-list {
+  padding-bottom: var(--s-0);
+
+  ion-list-header,
+  ion-item {
+    --min-height: 2rem;
+    min-height: 2rem;
+  }
+  ion-item {
+    --padding-start: var(--s-11);
+
+    .disc {
+      width: 3px;
+      height: 3px;
+      border-radius: 3px;
+      margin-right: var(--s-8);
+      background: rgba(var(--ion-color-light-rgb), 0.5);
+    }
+
+    &:hover {
+      .disc {
+        background: var(--ion-color-light);
+      }
+    }
+  }
+}

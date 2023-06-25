@@ -1,0 +1,24 @@
+<ion-item class="filter field" lines="none">
+  <ion-label position="stacked">{{ label }}</ion-label>
+  <ng-select
+    class="input"
+    [multiple]="multiple"
+    [ngModel]="selected"
+    [trackByFn]="trackByFn"
+    [minTermLength]="minTermLength"
+    [loading]="indexUsecase.busy"
+    [typeToSearchText]="typeToSearchText"
+    [typeahead]="debouncerTypeahed"
+    [bindLabel]="bindLabel"
+    [bindValue]="bindValue"
+    [items]="entities$ | async"
+    [closeOnSelect]="!multiple"
+    (change)="handleChange($event)"
+    (scrollToEnd)="indexUsecase.accumulateNextPage()"
+    (input)="inputChanged($event)"
+  >
+    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+      <input *ngIf="multiple" id="item-{{ index }}" type="checkbox" [ngModel]="item$.selected" /> {{ item[bindLabel] }}
+    </ng-template>
+  </ng-select>
+</ion-item>

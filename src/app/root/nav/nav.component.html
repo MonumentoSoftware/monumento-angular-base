@@ -1,0 +1,38 @@
+<div class="nav-header">
+  <ion-img src="assets/images/brand-nav.png"></ion-img>
+</div>
+
+<nav>
+  <ng-container *ngFor="let section of menuSections$ | async">
+    <ion-list *ngIf="section.visible">
+      <ion-list-header>
+        <ion-label>
+          {{ section.header }}
+        </ion-label>
+      </ion-list-header>
+      <ng-container *ngFor="let item of section.items">
+        <ion-item *ngIf="item.visible" [routerLink]="item.url" [detail]="false">
+          <pre slot="start" class="disc"></pre>
+          {{ item.title }}
+        </ion-item>
+      </ng-container>
+    </ion-list>
+  </ng-container>
+  <ion-list>
+    <ion-list-header>
+      <ion-label> Style Guide </ion-label>
+    </ion-list-header>
+    <ion-item routerLink="/style-guide/texts" [detail]="false">
+      <pre slot="start" class="disc"></pre>
+      Texts
+    </ion-item>
+    <ion-item routerLink="/style-guide/forms" [detail]="false">
+      <pre slot="start" class="disc"></pre>
+      Forms
+    </ion-item>
+    <ion-item routerLink="/style-guide/buttons" [detail]="false">
+      <pre slot="start" class="disc"></pre>
+      Buttons
+    </ion-item>
+  </ion-list>
+</nav>

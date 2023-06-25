@@ -1,0 +1,58 @@
+<ion-text class="input-error">
+  <ng-container *ngFor="let errorKey of errorKeys">
+    <ion-row [ngSwitch]="errorKey" class="error-item ion-align-items-center" style="flex-wrap: nowrap">
+      <ion-icon name="warning" color="danger" style="width: 25px"></ion-icon>
+      <ng-container *ngSwitchCase="'required'">
+        <span class="required-error">Campo obrigatório</span>
+      </ng-container>
+      <ng-container *ngSwitchCase="'affectedpersons'">
+        <span class="big-text">
+          A quantidade de Pessoas Afetadas não pode ser inferior a soma dos valores relativos à DEMOGRAFIA DA SITUAÇÃO
+        </span>
+      </ng-container>
+      <ng-container *ngSwitchCase="'gender'">
+        <span>
+          A soma da quantidade de pessoas afetadas em DEMOGRAFIA DE SEXO não pode ser maior que a quantidade total de
+          Pessoas Afetadas
+        </span>
+      </ng-container>
+      <ng-container *ngSwitchCase="'age'">
+        <span>
+          A soma da quantidade de pessoas afetadas em DEMOGRAFIA DE FAIXA ETÁRIA não pode ser maior que a quantidade
+          total de Pessoas Afetadas
+        </span>
+      </ng-container>
+      <ng-container *ngSwitchCase="'diseaseOverflow'">
+        <span>
+          A soma da quantidade de pessoas afetadas por AGRAVOS E DOENÇAS não pode ser maior que a quantidade total de
+          Pessoas Afetadas
+        </span>
+      </ng-container>
+      <ng-container *ngSwitchCase="'minlength'">
+        <span class="minlength-error">
+          Campo muito curto [{{ errors.minlength.actualLength }}/{{ errors.minlength.requiredLength }}]
+        </span>
+      </ng-container>
+      <ng-container *ngSwitchCase="'maxlength'">
+        <span class="maxlength-error">
+          Campo muito longo [{{ errors.maxlength.actualLength }}/{{ errors.maxlength.requiredLength }}]
+        </span>
+      </ng-container>
+      <ng-container *ngSwitchCase="'email'">
+        <span class="maxlength-error">Email inválido</span>
+      </ng-container>
+      <ng-container *ngSwitchCase="'invalidPasswordFormat'">
+        <span>Senha deve conter letras e números</span>
+      </ng-container>
+      <ng-container *ngSwitchCase="'startLaterThanEnd'">
+        <span>Data final anterior à inicial</span>
+      </ng-container>
+      <ng-container *ngSwitchCase="'requiredFileType'">
+        <span>Formato de arquivo inválido</span>
+      </ng-container>
+      <ng-container *ngSwitchDefault>
+        <span class="unknown-error">Campo Inválido</span>
+      </ng-container>
+    </ion-row>
+  </ng-container>
+</ion-text>

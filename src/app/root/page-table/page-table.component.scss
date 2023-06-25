@@ -1,0 +1,17 @@
+.filters {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--s-8) var(--s-11);
+}
+.table {
+  flex: 1;
+  margin-top: var(--s-10);
+}

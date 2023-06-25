@@ -1,0 +1,268 @@
+import { BaseRepository } from '@app/data/base/base-repository';
+import { Index } from '@app/data/base/index-data';
+import { Failure, Result } from '@app/shared/util/types/result';
+import { Mapper } from './mapper';
+import { BaseQuery } from './query';
+import { HasId } from '@app/data/base/has-id';
+import { DEFAULT_FIRST_PAGE } from '@app/shared/const';
+import { Subject, ReplaySubject, Observable, merge, concat, of, from } from 'rxjs';
+import {
+  shareReplay,
+  debounce,
+  distinctUntilKeyChanged,
+  debounceTime,
+  map,
+  withLatestFrom,
+  switchMap,
+  scan,
+  tap,
+} from 'rxjs/operators';
+
+interface BaseIndexUseCaseAction {
+  type: string;
+}
+
+interface QueryChangedAction<Query> extends BaseIndexUseCaseAction {
+  type: 'QueryChangedAction';
+  query: Query;
+}
+
+interface PageChangedAction extends BaseIndexUseCaseAction {
+  type: 'PageChangedAction';
+  page: number;
+}
+
+interface SearchChangedAction extends BaseIndexUseCaseAction {
+  type: 'SearchChangedAction';
+  search: string;
+}
+
+interface FetchRespondedAction<Model> extends BaseIndexUseCaseAction {
+  type: 'FetchResponded';
+  result: Result<Index<Model>>;
+}
+
+// interface OnNextPageAction extends BaseIndexUseCaseAction {
+//   type: 'OnNextPage';
+// }
+
+// interface OnPreviousPageAction extends BaseIndexUseCaseAction {
+//   type: 'OnPreviousPage';
+// }
+
+// interface PageSelectionAction extends BaseIndexUseCaseAction {
+//   type: 'PageSelection';
+//   page: number;
+// }
+
+// interface ReachedListEndAction extends BaseIndexUseCaseAction {
+//   type: 'ReachedListEndAction';
+// }
+
+export type IndexAction<Model, Query> =
+  | QueryChangedAction<Query>
+  | PageChangedAction
+  | SearchChangedAction
+  | FetchRespondedAction<Model>;
+
+export interface IndexState<Model extends HasId, Query extends BaseQuery> {
+  query: Query;
+  data: Model[];
+  count: number;
+  busy: boolean;
+  isSuccess: boolean;
+  result: Result<Index<Model>>;
+}
+
+// implements ObservableUseCase < IndexState < Entity, Query >, IndexAction >
+export abstract class IndexUseCase<Model extends HasId, Query extends BaseQuery> {
+  protected readonly repository: BaseRepository<HasId, Query>;
+  protected readonly mapper: Mapper<HasId, Model>;
+  protected readonly initialQuery: Query;
+  protected readonly initialState: IndexState<Model, Query>;
+
+  protected readonly queryChangedAction: Subject<QueryChangedAction<Query>>;
+  protected readonly pageChangedAction: Subject<PageChangedAction>;
+  protected readonly searchChangedAction: Subject<SearchChangedAction>;
+
+  //  protected readonly pageSubject: Subject<number>;
+  //  protected readonly pageSizeSubject: Subject<number>;
+  //  protected readonly searchSubject: Subject<number>;
+  //  protected readonly querySubject: Subject<Query>;
+
+  readonly state$: Observable<IndexState<Model, Query>>;
+  // get query$() {
+  //   return this.state$.pipe(map((s) => s.query));
+  // }
+  // get data$() {
+  //   return this.state$.pipe(map((s) => s.data));
+  // }
+  // get count$() {
+  //   return this.state$.pipe(map((s) => s.count));
+  // }
+  // get busy$() {
+  //   return this.state$.pipe(map((s) => s.busy));
+  // }
+  // get isSuccess$() {
+  //   return this.state$.pipe(map((s) => s.isSuccess));
+  // }
+
+  //  query: Query;
+  //  data: Model[];
+  //  count: number;
+  //  busy: boolean;
+  //  isSuccess: boolean;
+  //  private result: Result<Index<Model>>;
+
+  constructor(args: { initialQuery: Query; mapper: Mapper<HasId, Model>; repository: BaseRepository<HasId, Query> }) {
+    this.initialQuery = args.initialQuery;
+    this.initialState = {
+      query: this.initialQuery,
+      busy: false,
+      count: 0,
+      data: [],
+      isSuccess: false,
+      result: null,
+    };
+    //  this.query = args.initialQuery;
+    //  this.mapper = args.mapper;
+    //  this.repository = args.repository;
+
+    this.queryChangedAction = new Subject();
+    this.pageChangedAction = new Subject();
+    this.searchChangedAction = new Subject();
+    const fetchRespondedAction = new Subject<FetchRespondedAction<Model>>();
+
+    const queryChangedAction = this.queryChangedAction;
+    const pageChangedAction = this.pageChangedAction.pipe(debounceTime(50));
+    const searchChangedAction = this.searchChangedAction.pipe(debounceTime(500));
+
+    this.state$ = merge(queryChangedAction, pageChangedAction, searchChangedAction, fetchRespondedAction).pipe(
+      shareReplay(),
+      scan((state, action) => {
+        return this.reducer(this.initialState, state, action);
+      }, this.initialState),
+      tap()
+      // withLatestFrom(this.state$),
+      // map(([action, state]) => this.reducer(this.initialState, state, action)),
+      switchMap((state) => {
+        return concat(
+          of(state),
+          from(this.fetchEffect(state.query)).pipe(
+            switchMap((action) => of(this.reducer(this.initialState, state, action)))
+          )
+        );
+      })
+    );
+  }
+
+  updateQuery(query: Query) {
+    this.queryChangedAction.next({ type: 'QueryChangedAction', query });
+  }
+
+  changePage(page: number) {
+    this.pageChangedAction.next({ type: 'PageChangedAction', page });
+  }
+
+  changeSearch(search: string) {
+    this.searchChangedAction.next({ type: 'SearchChangedAction', search });
+  }
+  //  async updateQuery(query: Query): Promise<Result<Index<Model>>> {
+  //    this.query = { ...this.query, ...query };
+  //    return await this.fetch();
+  //  }
+
+  //  async goToPage(page: number): Promise<Result<Index<Model>>> {
+  //    return this.updateQuery({ page } as Query);
+  //  }
+
+  //  async nextPage(): Promise<Result<Index<Model>>> {
+  //    const currentPage = this.query.page;
+  //    let page: number;
+  //    if (typeof currentPage === 'number' && currentPage >= DEFAULT_FIRST_PAGE) page = currentPage + 1;
+  //    else {
+  //      page = this.initialQuery.page;
+  //    }
+  //    return this.updateQuery({ page } as Query);
+  //  }
+
+  //  async previousPage(): Promise<Result<Index<Model>>> {
+  //    const currentPage = this.query.page;
+  //    let page: number;
+  //    if (typeof currentPage === 'number' && currentPage > DEFAULT_FIRST_PAGE) page = currentPage - 1;
+  //    else {
+  //      page = DEFAULT_FIRST_PAGE;
+  //    }
+  //    return this.updateQuery({ page } as Query);
+  //  }
+
+  //  updateById(model: Model): Model[] {
+  //    if (typeof model.id !== 'number') return this.data;
+  //    const index = this.data.findIndex((el) => el.id === model.id);
+  //    this.data = [...this.data.slice(0, index), model, ...this.data.slice(index + 1, this.data.length)];
+  //    return this.data;
+  //  }
+
+  async fetchEffect(query: Query): Promise<FetchRespondedAction<Model>> {
+    const result = await this.repository.index(query, this.mapper);
+    return { type: 'FetchResponded', result };
+  }
+
+  // removeById(id: number): Model[] {
+  //   if (typeof id !== 'number') return this.data;
+  //   const index = this.data.findIndex((el) => el.id === id);
+  //   this.data = [
+  //     ...this.data.slice(0, index),
+  //     ...this.data.slice(index + 1, this.data.length)
+  //   ];
+  //   return this.data;
+  // }
+
+  //  fetch(): Promise<IndexState<Model, Query>> {
+  //   //  this.busy = true;
+
+  //    this.result = await this.repository.index(this.query, this.mapper);
+
+  //    this.busy = false;
+  //    this.isSuccess = this.result.isSuccess;
+  //    if (this.result instanceof Failure) {
+  //      this.data = [];
+  //      this.count = 0;
+  //    } else {
+  //      this.data = this.result.data.results;
+  //      this.count = this.result.data.count;
+  //    }
+  //    return this.result;
+  //  }
+
+  protected reducer(
+    initialState: IndexState<Model, Query>,
+    state: IndexState<Model, Query>,
+    action: IndexAction<Model, Query>
+  ): IndexState<Model, Query> {
+    if (state == null || action == null) return initialState;
+    switch (action.type) {
+      case 'PageChangedAction':
+        state = { ...state, query: { ...state.query, page: action.page }, busy: true };
+        break;
+      case 'QueryChangedAction':
+        state = { ...state, query: { ...state.query, ...action.query }, busy: true };
+        break;
+      case 'SearchChangedAction':
+        state = { ...state, query: { ...state.query, search: action.search }, busy: true };
+        break;
+      case 'FetchResponded':
+        state = {
+          ...state,
+          result: action.result,
+          busy: false,
+          isSuccess: action.result.isSuccess,
+          data: action.result.isSuccess ? action.result.data.results : [],
+          count: action.result.isSuccess ? action.result.data.count : 0,
+        };
+      default:
+        break;
+    }
+    return state;
+  }
+}

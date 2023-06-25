@@ -1,0 +1,12 @@
+.error-item {
+  margin-top: var(--s-half);
+  span {
+    font-size: var(--font-sm);
+    color: var(--ion-color-danger);
+  }
+}
+
+.input-error .error-item .big-text {
+  text-align: start;
+  margin-left: 10px;
+}

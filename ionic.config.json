@@ -1,0 +1,7 @@
+{
+  "name": "monumento-angular-pwa",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

@@ -1,0 +1,31 @@
+ion-header {
+  background-color: var(--ion-color-primary-contrast);
+  &.search-focus {
+    box-shadow: 0 4px 25px var(--ion-color-shadow);
+  }
+}
+
+.recent-search {
+  position: absolute;
+  background: var(--ion-color-primary-contrast);
+  z-index: 2;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-top: 100px;
+
+  ion-label {
+    font-weight: 600;
+    &.md {
+      padding-left: 15px;
+    }
+  }
+
+  ion-item {
+    ion-icon {
+      font-size: 18px;
+      margin-right: 10px;
+    }
+  }
+}

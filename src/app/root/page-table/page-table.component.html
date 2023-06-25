@@ -1,0 +1,29 @@
+<app-page>
+  <ng-content appPageHeaderLeft select="[appPageHeaderLeft]"></ng-content>
+  <ng-content appPageHeaderRight select="[appPageHeaderRight]"></ng-content>
+  <div appPageMain class="body">
+    <ng-container *ngIf="loaded; else loading">
+      <ng-container *ngIf="list.isSuccess; else hasError">
+        <div class="filters">
+          <ng-content select="[appPageTableFilters]"></ng-content>
+        </div>
+        <div class="table">
+          <ng-content select="[appPageTableTable]"></ng-content>
+        </div>
+      </ng-container>
+      <ng-template #hasError>
+        <div class="error">
+          <div class="error-box">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+            <span>Não foi possível carregar os dados</span>
+          </div>
+        </div>
+      </ng-template>
+    </ng-container>
+    <ng-template #loading>
+      <div class="loading-container">
+        <ion-spinner name="dots"></ion-spinner>
+      </div>
+    </ng-template>
+  </div>
+</app-page>

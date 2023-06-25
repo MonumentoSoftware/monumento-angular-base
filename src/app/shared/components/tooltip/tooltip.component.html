@@ -1,0 +1,17 @@
+<div class="tooltip-wrapper">
+  <ion-img
+    *ngIf="!disableDefaultIcon; else customContent"
+    src="../../../../assets/icons/tooltip-icon.svg"
+    class="tooltip-icon-hover"
+  ></ion-img>
+  <ng-template #customContent>
+    <div class="tooltip-icon-hover tooltip-content-on-bottom">
+      <ng-content></ng-content>
+    </div>
+  </ng-template>
+  <div class="tooltip-content" *ngIf="tip">
+    <p>
+      {{ tip }}
+    </p>
+  </div>
+</div>

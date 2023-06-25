@@ -1,0 +1,40 @@
+.content {
+  --ion-background-color: var(--ion-color-secondary);
+}
+
+.container {
+  ion-col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.card {
+  width: 90%;
+  --ion-background-color: var(--ion-color-light);
+  padding: 40px 30px;
+  border-radius: 35px !important;
+  max-width: 380px;
+}
+
+.title {
+  font-weight: 700;
+}
+
+.submit-btn {
+  --border-radius: 100px !important;
+  font-weight: 900;
+  height: 50px;
+  margin-top: 70px;
+}
+
+.forgot-password-link {
+  width: 100%;
+  text-align: center;
+  align-self: center;
+}
+
+a {
+  text-decoration: none;
+}

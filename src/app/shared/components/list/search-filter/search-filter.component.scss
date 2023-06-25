@@ -1,0 +1,15 @@
+ion-label {
+  font-weight: var(--font-medium);
+}
+
+.item-label-stacked .sc-ion-input-md-h {
+  --padding-end: calc(var(--s-11) + var(--s-2));
+
+  &:after {
+    position: absolute;
+    content: url('/assets/images/icons/magnifier.svg');
+    top: calc(var(--s-8) * 0.8);
+    right: var(--s-2);
+    width: var(--s-11);
+  }
+}

@@ -1,0 +1,26 @@
+<app-modal-page>
+  <h6 class="title" appPageHeaderRight>{{ title }}</h6>
+  <div appPageHeaderRight class="header-right">
+    <ng-container [ngTemplateOutlet]="pageHeaderRight || defaultButtons"></ng-container>
+    <ng-template #defaultButtons>
+      <ion-button class="close" size="small" fill="clear" (click)="formCancel.emit()">
+        <ion-icon name="close" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ng-template>
+  </div>
+  <div appPageMain class="body">
+    <ng-container *ngIf="form.isReady; else notReady">
+      <ng-content select="[appPageFormMain]"></ng-content>
+    </ng-container>
+    <ng-template #notReady>
+      <div class="loading-container">
+        <ion-spinner name="dots"></ion-spinner>
+      </div>
+    </ng-template>
+  </div>
+  <div appPageFooter>
+    <ion-button fill="solid" (click)="formSubmit.emit()">
+      {{ form.isCreation ? 'Criar' : 'Salvar' }}
+    </ion-button>
+  </div>
+</app-modal-page>

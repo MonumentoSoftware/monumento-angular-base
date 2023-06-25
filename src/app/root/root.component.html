@@ -1,0 +1,45 @@
+<ion-split-pane class="pane" contentId="main-content">
+
+
+  <ion-menu contentId="main-content" type="overlay">
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start" *ngIf="toggleMenu">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <div class="green-breath"></div>
+    <ion-content>
+      <ion-list id="inbox-list">
+        <div class="menu-upper">
+          <ion-list-header>SOS NEURO</ion-list-header>
+          <ion-note>Sistema de gerenciamento hospitalar</ion-note>
+        </div>
+
+        <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
+          <ion-item button routerDirection="root" [routerLink]="[p.url]" lines="none" routerLinkActive="selected">
+            <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'">
+            </ion-icon>
+            <ion-label>{{ p.title }}</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <div class="ion-page" id="main-content">
+    <ion-header class="">
+      <ion-toolbar class="">
+        <ion-buttons slot="start" *ngIf="toggleMenu">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <div class="green-breath"></div>
+    <ion-content class="ion-padding">
+      <ion-router-outlet id="main-content">
+      </ion-router-outlet>
+    </ion-content>
+  </div>
+</ion-split-pane>

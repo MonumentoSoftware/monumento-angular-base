@@ -1,0 +1,18 @@
+:host {
+  display: flex;
+  align-items: center;
+}
+
+ion-checkbox {
+  --background: var(--ion-color-mediumdark-tint);
+  --background-checked: var(--ion-color-mediumdark-tint);
+  --border-color: var(--ion-color-mediumdark-tint);
+  --checkmark-color: var(--ion-color-success);
+  --border-color-checked: var(--ion-color-mediumdark-tint);
+  --checkmark-width: 0.3rem;
+  --size: 1.2rem;
+}
+
+ion-label {
+  margin-left: 0.2rem;
+}

@@ -1,0 +1,39 @@
+.tooltip-wrapper {
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+
+  > .tooltip-icon-hover:hover ~ .tooltip-content {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  > .tooltip-content {
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    top: -12px;
+    left: 20px;
+    width: 100%;
+    padding: 9px;
+    width: max-content;
+    background-color: var(--ion-background-color);
+    border: 1px solid var(--ion-color-secondary-iv);
+    border-radius: 4px;
+    z-index: 30;
+
+    > p {
+      margin: 0;
+      font-size: var(--font-xs);
+      color: var(--ion-color-secondary-contrast);
+    }
+  }
+}
+
+div {
+  .tooltip-content-on-bottom + .tooltip-content {
+    top: 100%;
+    left: 0px;
+  }
+}

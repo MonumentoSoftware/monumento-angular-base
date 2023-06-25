@@ -1,0 +1,60 @@
+<ion-app>
+  <ion-content class="content ion-justify-content-center ion-align-items-center">
+    <ion-row class="container ion-justify-content-center ion-align-items-center" style="height: 100%;">
+      <ion-col>
+        <ion-card class="card ion-padding">
+          <ion-card-title class="font-xxl title ion-margin-bottom">
+            Entrar
+          </ion-card-title>
+          <ion-card-content class="ion-no-padding">
+            <form [formGroup]="form" (ngSubmit)="service.login(form.value)">
+              <ion-list class="ion-no-margin ion-no-padding">
+                <ion-item class="ion-no-margin ion-no-padding form-group">
+                  <ion-label position="floating">Email</ion-label>
+                  <ion-input formControlName="email" required email></ion-input>
+                </ion-item>
+                <ion-text class="input-error" *ngIf="email?.invalid && email?.touched">
+                  <small *ngIf="email?.errors?.['required']">
+                    Email obrigatório
+                  </small>
+                  <small *ngIf="email?.errors?.['email']">
+                    Email inválido
+                  </small>
+                </ion-text>
+                <app-server-errors [errors]="service.loginTask.error?.items.email"></app-server-errors>
+
+                <ion-item class="ion-no-margin ion-no-padding form-group">
+                  <ion-label position="floating">Senha</ion-label>
+                  <ion-input
+                    type="password"
+                    formControlName="password"
+                    (keyup.enter)="service.login(form.value)"
+                    required
+                  ></ion-input>
+                </ion-item>
+                <ion-text class="input-error" *ngIf="email?.invalid && email?.touched">
+                  <small *ngIf="email?.errors?.['required']">
+                    Senha obrigatória
+                  </small>
+                </ion-text>
+                <app-server-errors [errors]="service.loginTask.error?.items.password"></app-server-errors>
+              </ion-list>
+              <ion-button
+                type="submit"
+                color="primary"
+                expand="block"
+                size="large"
+                class="submit-btn font-l ion-text-capitalize"
+              >
+                Entrar
+              </ion-button>
+            </form>
+            <ion-item lines="none">
+              <a [routerLink]="['/', 'auth', 'esqueceuSenha']" class="forgot-password-link font-l">Esqueceu a senha?</a>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-content>
+</ion-app>

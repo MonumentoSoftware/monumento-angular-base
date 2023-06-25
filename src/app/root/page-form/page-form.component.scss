@@ -1,0 +1,30 @@
+:host {
+  height: 100%;
+}
+
+.title {
+  font-weight: var(--font-normal);
+  margin: 0;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+ion-button {
+  --padding-start: var(--s-12);
+  --padding-end: var(--s-12);
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.close {
+  color: var(--ion-color-secondary-viii);
+}

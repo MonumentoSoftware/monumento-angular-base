@@ -1,0 +1,26 @@
+:host {
+  --color: var(--ion-color-primary);
+  --contrast-color: var(--ion-color-primary-contrast);
+}
+
+button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--s-12);
+  height: var(--s-12);
+  border-radius: var(--s-12);
+  background: transparent;
+  transition: 0.2s;
+
+  ion-icon {
+    font-size: var(--font-xl);
+    transition: 0.2s;
+  }
+
+  &:focus,
+  &:active {
+    outline-color: transparent;
+    outline-width: 0;
+  }
+}

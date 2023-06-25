@@ -1,0 +1,40 @@
+<ion-header [translucent]="false" class="ion-no-border" [ngClass]="{ 'search-focus': this.searchFocus }">
+  <ion-toolbar class="search-toolbar">
+    <ion-buttons slot="start">
+      <ion-button class="menu-btn" icon-only menuToggle (click)="openMenu()">
+        <ion-img src="assets/images/icons/menu-icon.svg"></ion-img>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button icon-only (click)="openFilters()">
+        <ion-icon class="font-xl" src="assets/images/icons/filter.svg"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-searchbar
+      (ionFocus)="onSearchFocus()"
+      (ionBlur)="onSearchBlur()"
+      class="search-container"
+      placeholder="Pesquise acessórios e carros"
+      class="search-input"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+<div *ngIf="searchFocus" class="recent-search">
+  <ion-list lines="none">
+    <ion-list-header>
+      <ion-label>Pesquisas Recentes</ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-icon src="assets/images/icons/time-clock-circle.svg"></ion-icon>
+      <ion-text>Jogo de Rodas</ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-icon src="assets/images/icons/time-clock-circle.svg"></ion-icon>
+      <ion-text>Impermeabilização dos Bancos</ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-icon src="assets/images/icons/time-clock-circle.svg"></ion-icon>
+      <ion-text>Shelton St, Covent Garden, Lodon</ion-text>
+    </ion-item>
+  </ion-list>
+</div>

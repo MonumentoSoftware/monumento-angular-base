@@ -1,0 +1,22 @@
+:host {
+    display: flex;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    height: 100px;
+    width: 170px;
+    border-radius: 10px;
+
+    .badge-avatar{
+        width:30px;
+    }
+
+    h3.badge-title {
+        font-size: 12px;
+        font-weight: 500;
+    }
+}
