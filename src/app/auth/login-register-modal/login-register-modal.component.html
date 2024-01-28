@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="danger" (click)="cancel()">{{
+        "Cancel" | translate
+      }}</ion-button>
+    </ion-buttons>
+    <ion-title>{{ "Login with google" | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <h1 style="margin-left: 16px; font-weight: 700">
+    {{ "Hello there" | translate }}
+  </h1>
+  <p class="article-text">
+    {{ "For an" | translate }}<strong>{{ "optimal" | translate }}</strong
+    >{{ "login.p1" | translate }}
+    <br />
+    {{ "This ensures both" | translate
+    }}<strong>{{ "robust security" | translate }}</strong
+    >{{ "login.p2" | translate }}
+    <br />
+    {{ "As of now" | translate
+    }}<strong>{{ "we kindly ask" | translate }}</strong
+    >{{ "our valued users to" | translate }}
+    <strong>{{ "sign in using their Google accounts" | translate }}</strong
+    >.
+    <br />
+    {{ "We appreciate your understanding." | translate }}
+  </p>
+  <div class="main">
+    <div id="gbtn"></div>
+  </div>
+</ion-content>

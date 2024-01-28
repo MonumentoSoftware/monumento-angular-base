@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthTokenInterceptor } from './auth.interceptor';
-import { NoAuthGuard } from '../shared/guards/no-auth.guard';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { LoginComponent } from './login/login.component';
 import { PasswordDefinitionComponent } from './password-definition/password-definition.component';
@@ -10,7 +9,7 @@ import { PasswordDefinitionComponent } from './password-definition/password-defi
 const authRoutes: Routes = [
   {
     path: '',
-    canActivate: [NoAuthGuard],
+    canActivate: [],
     children: [
       {
         path: 'login',

@@ -1,6 +1,7 @@
 import { ModalController } from "@ionic/angular";
 import { BaseRepository } from "src/app/data/base/base-repository";
 import { HasId } from "src/app/data/base/has-id";
+import { UserEntity } from "src/app/data/entities/user.entity";
 import { ModalChoiceComponent } from "src/app/shared/components/modals/modal-choice/modal-choice.component";
 import { ToastService } from "src/app/shared/services/toast.service";
 import { Success } from "src/app/shared/util/types/task";
@@ -8,14 +9,13 @@ import { BaseModel } from "../models/model";
 import { Status } from "../models/status.model";
 import { Decoder } from "./decoder";
 import { Task } from "src/app/shared/util/types/task";
-
 abstract class Activable {
   isActive!: boolean;
 }
 
 export abstract class ActivationUsecase<Model extends BaseModel & Activable> {
   protected abstract readonly decoder: Decoder<Model>;
-  protected abstract repository: BaseRepository;
+  protected abstract repository: BaseRepository<UserEntity>;
   protected abstract modalController: ModalController;
   protected abstract toastService: ToastService;
 

@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  FormControl,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { FormUseCase } from '../../base/form.usecase';
 import { UserRepository } from 'src/app/data/repositories/user.repository';
 import { ToastService } from 'src/app/shared/services/toast.service';
@@ -8,6 +13,7 @@ import { Failure } from 'src/app/shared/util/types/task';
 import { UserModel } from '../../models/user.model';
 import { Decoder } from '../../base/decoder';
 import { Task } from 'src/app/shared/util/types/task';
+
 @Injectable()
 export class UserFormUsecase extends FormUseCase<UserModel> {
   protected readonly decoder = UserModel.decoder as Decoder<UserModel>;
@@ -50,37 +56,41 @@ export class UserFormUsecase extends FormUseCase<UserModel> {
   constructor(
     protected readonly repository: UserRepository,
     protected toastService: ToastService,
-    private fb: UntypedFormBuilder,
+    private formBuilder: UntypedFormBuilder,
   ) {
     super();
   }
 
   protected async buildForm(model: UserModel) {
-    return this.fb.group({
-      name: this.fb.control(model?.entity?.name, [Validators.required]),
-      email: this.fb.control(model?.entity?.email, [Validators.required, Validators.required]),
-      picture: this.fb.control(model?.entity?.picture, []),
-      gender: this.fb.control(model?.entity?.gender, [Validators.required]),
-      birthday: this.fb.control(model?.entity?.birthday, [Validators.required]),
-      document: this.fb.control(model?.entity?.document, [Validators.required]),
+    return this.formBuilder.group({
+      name: this.formBuilder.control(model?.entity?.name, [
+        Validators.required,
+      ]),
+      email: this.formBuilder.control(model?.entity?.email, [
+        Validators.required,
+        Validators.required,
+      ]),
+      picture: this.formBuilder.control(model?.entity?.picture, []),
     });
   }
-
-
 
   override async submit(): Promise<Task<UserModel> | null> {
     if (this.form.valid) {
       this.busy = true;
-      const args = this.prepareFormDataToSubmit(this.editModel as UserModel, this.form);
+      const args = this.prepareFormDataToSubmit(
+        this.editModel as UserModel,
+        this.form,
+      );
       const result = await this.submitFormDataRequest(args);
       this.busy = false;
 
       return result;
-    }
-    else return null
+    } else return null;
   }
 
-  private async submitFormDataRequest(args: FormData): Promise<Task<UserModel>> {
+  private async submitFormDataRequest(
+    args: FormData,
+  ): Promise<Task<UserModel>> {
     const result = await this.repository.saveFormData(args, this.decoder);
     this.isSuccess = result.isSuccess;
     if (result instanceof Failure) {
@@ -92,7 +102,10 @@ export class UserFormUsecase extends FormUseCase<UserModel> {
     return result;
   }
 
-  protected prepareFormDataToSubmit(editModel: UserModel, form: UntypedFormGroup) {
+  protected prepareFormDataToSubmit(
+    editModel: UserModel,
+    form: UntypedFormGroup,
+  ) {
     const value = form.value;
 
     const formData = new FormData();
