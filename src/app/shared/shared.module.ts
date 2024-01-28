@@ -29,7 +29,7 @@ import { TextInputComponent } from './components/text-input/text-input.component
     UserTypeLabelPipe,
     BadgeHomeComponent,
     TooltipComponent,
-    TextInputComponent
+    TextInputComponent,
   ],
   exports: [
     IonicModule,
@@ -47,7 +47,8 @@ import { TextInputComponent } from './components/text-input/text-input.component
     UserTypeLabelPipe,
     BadgeHomeComponent,
     TooltipComponent,
-    TextInputComponent
+    TextInputComponent,
+
   ],
   providers: [ServerErrorsService],
 })

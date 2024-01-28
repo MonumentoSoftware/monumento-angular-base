@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
-import {UntypedFormControl, UntypedFormGroup} from '@angular/forms';
-import { LoginService } from './login.service';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { LoginService } from '../api/login.service';
 
 @Component({
   selector: 'app-login',
@@ -9,9 +9,9 @@ import { LoginService } from './login.service';
   providers: [LoginService],
 })
 export class LoginComponent {
-  form = new UntypedFormGroup({
-    email: new UntypedFormControl('admin@monumento-software.com'),
-    password: new UntypedFormControl('test@123'),
+  form = new FormGroup({
+    email: new FormControl('admin@monumento-software.com'),
+    password: new FormControl('test@123'),
   });
 
   constructor(public readonly service: LoginService) {}

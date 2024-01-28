@@ -11,4 +11,7 @@ export class AuthUrlBuilder {
   static redefinitionPassword() {
     return '/auth/redefinicaoSenha/:uid/:token';
   }
+  static register() {
+    return '/auth/register';
+  }
 }

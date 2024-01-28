@@ -30,6 +30,7 @@
     "@ng-select/ng-select": "^11.0.0",
     "ionicons": "^7.0.0",
     "rxjs": "~7.8.0",
+    "snake-case": "^3.0.4",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
   },

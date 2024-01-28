@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UntypedFormBuilder, Validators } from '@angular/forms';
+import { FormGroup, UntypedFormBuilder, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MustMatch } from 'src/app/shared/validators/must-match.validator';
 import { PasswordDefinitionService } from './password-definition.service';
@@ -11,14 +11,12 @@ import { PasswordDefinitionService } from './password-definition.service';
   providers: [PasswordDefinitionService],
 })
 export class PasswordDefinitionComponent {
-  form = this.fb.group(
+  form = new FormGroup(
     {
       new_password1: this.fb.control('', [Validators.required]),
       new_password2: this.fb.control('', [Validators.required]),
     },
-    {
-      validators: [MustMatch('new_password1', 'new_password2')],
-    }
+    {validators: [MustMatch('new_password1', 'new_password2') as ValidatorFn]}
   );
   readonly uid: string;
   readonly token: string;
